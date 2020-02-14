@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True , icon='C:\\python\\pyspiltter\\logo.ico')
+          console=True , icon='logo.ico')
