@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenu,QTableWidget, QTableWidgetItem, QAction,QToolTip,QApplication,QMessageBox
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont,QKeyEvent
 from PyQt5.QtCore import QCoreApplication,Qt,QTimer
-from pyspiltter import Ui_pysplitter
+from pysplitter import Ui_pysplitter
 import os,sys
 from random import randrange
 import xlwt
@@ -16,11 +16,19 @@ import xlwt
 #            resultList.append(item)
 #        print(resultList)
 #    return resultList
+# We create custom QTableWidget for react to key press events
+class CustomTableWidget(QTableWidget):
 
-#高速清除重複版 透過利用python中集合元素惟一性特點，將列表轉為集合，將轉為列表返回
-def deleteDuplicatedElement(list):
-    # return list(set(list))
-    return sorted(set(list), key=list.index)
+    def __init__(self, parent=None):
+        super(QTableWidget, self).__init__(parent)
+
+    # override keyPressEvent
+    def keyPressEvent(self, e: QKeyEvent) -> None:
+        if e.key() == Qt.Key_Enter:
+            print("Key enter was pressed")
+        elif e.key() == Qt.Key_Return:
+            print("Key return was pressed")
+
 
 # 主程式段
 class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
@@ -42,11 +50,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         # self.s_gen.setHorizontalHeaderItem(1, header_item)
 
         # self.setdataheader()
+        #self.datatable = CustomTableWidget(self.datatable)
         self.datatable.doubleClicked.connect(self.onDoubleClick)
+        #self.datatable.clicked.connect(self.onClick)
         #self.datatable.addAction(QAction("複製", self.datatable, triggered=self.copyData))
         # 針對單身表格設置
-        self.datatable.setEditTriggers(
-            QtWidgets.QAbstractItemView.SelectedClicked)
+        #self.datatable.setEditTriggers(QtWidgets.QAbstractItemView.AnyKeyPressed)
         # self.s_gen.verticalHeader().setVisible(False)
         # self.s_gen.horizontalHeader().setVisible(False)
         # 可以设定的选择模式：
@@ -65,7 +74,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         # self.query.triggered.connect(lambda: self.whichbtn(self.query, 'cl'))
         self.exporttoexcel.triggered.connect(lambda: self.writeExcel())
         self.help.triggered.connect(lambda: self.helpme())
-        self.help2.triggered.connect(lambda: self.helpme())
         self.lang.triggered.connect(lambda: self.changelang())
 
         #self.help.triggered.connect(lambda: MessageBox(self.help, text='倒计时关闭对话框', auto=randrange(0, 2)).exec_())
@@ -90,7 +98,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         #self.exit.setShortcut('Esc')
         #self.exit2.setShortcut('Esc')
         self.exit.triggered.connect(QCoreApplication.instance().quit)
-        self.exit2.triggered.connect(QCoreApplication.instance().quit)
 
         # 用不到按鈕關閉
         self.editcopy.setEnabled(False)
@@ -140,9 +147,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
     def onDoubleClick(self, index):
         print(index.row(), index.column(), index.data())
 
+    # 單身點兩下 顯示欄位資訊
+    #def onClick(self, index):
+    #    print(index.row(), index.column(), index.data())
+
     # 控制ctrl+c
     def keyPressEvent(self, event):
         super(MainWindow, self).keyPressEvent(event)
+        print(""+str(event.key()))
+        #if self.datatable.event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+        #    print("Enter key pressed")
+        if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter, QtCore.Qt.Key_Tab):
+            print("Enter key pressed")
+            self.add_row(self.datatable)
+
         # Ctrl + C
         if event.modifiers() == Qt.ControlModifier \
             and event.key() == Qt.Key_C:
@@ -156,6 +174,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         if event.modifiers() == Qt.ControlModifier \
             and event.key() == Qt.Key_H:
             self.helpme()
+
+        # Enter
+        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Tab:
+            print("press enter")
+            #self.add_row()
+
+    #新增一列
+    def add_row(self, index):
+        #先取得總列數
+        print("into func add_row()")
+        selection = self.datatable.selectedIndexes()
+        #rowindex = index.row()
+        print(selection)
+        rows = self.datatable.rowCount()
+        self.datatable.insertRow(rows)
+        #self.datatable.setCurrentIndex(rows)
+        self.datatable.setCurrentCell(rows,0)
 
     def copyData(self):
         count = len(self.datatable.selectedIndexes())
@@ -322,7 +357,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         #QMessageBox.information(self, "開發人員", "<b>由泰哥承製開發</b><br><br>歡迎洽詢")
         reply = QMessageBox.information(self,                         #使用infomation信息框
                 "開發人員",
-                "<b><font color='red'>版本: 1.03</b></font><br>"\
+                "<b><font color='red'>版本: 1.04</b></font><br>"\
                 "<b>由泰哥承製開發</b><br><br>歡迎洽詢",
                 QMessageBox.Yes)
 
@@ -370,6 +405,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_pysplitter):
         wb.save(filename)
 # ==================================================
 
+#高速清除重複版 透過利用python中集合元素惟一性特點，將列表轉為集合，將轉為列表返回
+def deleteDuplicatedElement(list):
+    return sorted(set(list), key=list.index)
 
 # 程式入口
 if __name__ == "__main__":

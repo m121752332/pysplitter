@@ -15,7 +15,7 @@
    <string>資料分隔處理器</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="pyspiltter.qrc">
+   <iconset resource="pysplitter.qrc">
     <normaloff>:/pic/icon/logo.jpg</normaloff>:/pic/icon/logo.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -61,7 +61,7 @@
        </property>
        <widget class="QWidget" name="tab1">
         <attribute name="icon">
-         <iconset resource="pyspiltter.qrc">
+         <iconset resource="pysplitter.qrc">
           <normaloff>:/pic/icon/group.png</normaloff>:/pic/icon/group.png</iconset>
         </attribute>
         <attribute name="title">
@@ -210,7 +210,7 @@
        </widget>
        <widget class="QWidget" name="tab2">
         <attribute name="icon">
-         <iconset resource="pyspiltter.qrc">
+         <iconset resource="pysplitter.qrc">
           <normaloff>:/pic/icon/start.png</normaloff>:/pic/icon/start.png</iconset>
         </attribute>
         <attribute name="title">
@@ -284,6 +284,9 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
        <property name="inputMethodHints">
         <set>Qt::ImhMultiLine</set>
        </property>
@@ -298,6 +301,9 @@
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
        </property>
        <property name="verticalScrollMode">
         <enum>QAbstractItemView::ScrollPerItem</enum>
@@ -423,12 +429,12 @@
     <property name="title">
      <string>畫面</string>
     </property>
-    <addaction name="help2"/>
+    <addaction name="help"/>
     <addaction name="about"/>
     <addaction name="separator"/>
     <addaction name="controlz"/>
     <addaction name="separator"/>
-    <addaction name="exit2"/>
+    <addaction name="exit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -503,7 +509,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="lang">
    <property name="icon">
-    <iconset resource="pyspiltter.qrc">
+    <iconset resource="pysplitter.qrc">
      <normaloff>:/pic/icon/lingua.png</normaloff>:/pic/icon/lingua.png</iconset>
    </property>
    <property name="text">
@@ -515,7 +521,7 @@
   </action>
   <action name="editcopy">
    <property name="icon">
-    <iconset resource="pyspiltter.qrc">
+    <iconset resource="pysplitter.qrc">
      <normaloff>:/pic/icon/copy.png</normaloff>
      <normalon>:/pic/icon/copy.png</normalon>:/pic/icon/copy.png</iconset>
    </property>
@@ -568,18 +574,9 @@
     <string>F1</string>
    </property>
   </action>
-  <action name="help2">
-   <property name="icon">
-    <iconset resource="pyspiltter.qrc">
-     <normaloff>:/pic/icon/help.png</normaloff>:/pic/icon/help.png</iconset>
-   </property>
-   <property name="text">
-    <string>說明</string>
-   </property>
-  </action>
   <action name="about">
    <property name="icon">
-    <iconset resource="pyspiltter.qrc">
+    <iconset resource="pysplitter.qrc">
      <normaloff>:/pic/icon/information.png</normaloff>
      <normalon>:/pic/icon/about.png</normalon>:/pic/icon/information.png</iconset>
    </property>
@@ -604,15 +601,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
-   </property>
-  </action>
-  <action name="exit2">
-   <property name="icon">
-    <iconset resource="pyspiltter.qrc">
-     <normaloff>:/pic/icon/quit.png</normaloff>:/pic/icon/quit.png</iconset>
-   </property>
-   <property name="text">
-    <string>離開</string>
    </property>
   </action>
   <action name="modify">
@@ -649,7 +637,7 @@
   </action>
   <action name="reproduce">
    <property name="icon">
-    <iconset resource="pyspiltter.qrc">
+    <iconset resource="pysplitter.qrc">
      <normaloff>:/pic/icon/copy.png</normaloff>:/pic/icon/copy.png</iconset>
    </property>
    <property name="text">
@@ -744,7 +732,7 @@
   </action>
   <action name="qbe_select">
    <property name="icon">
-    <iconset resource="pyspiltter.qrc">
+    <iconset resource="pysplitter.qrc">
      <normaloff>:/pic/icon/file_q.png</normaloff>
      <normalon>:/pic/icon/filefind.png</normalon>:/pic/icon/file_q.png</iconset>
    </property>
@@ -882,6 +870,9 @@
    <property name="toolTip">
     <string>[Ctrl+H]內容說明</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
    <property name="shortcutContext">
     <enum>Qt::ApplicationShortcut</enum>
    </property>
@@ -911,7 +902,7 @@
   <tabstop>comboBox</tabstop>
  </tabstops>
  <resources>
-  <include location="pyspiltter.qrc"/>
+  <include location="pysplitter.qrc"/>
  </resources>
  <connections/>
  <designerdata>
