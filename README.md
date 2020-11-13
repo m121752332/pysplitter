@@ -1,2 +1,2 @@
 # pysplitter
-資料分隔工具
+It can help your to splitter Data for sql statment.
